@@ -31,7 +31,6 @@ model Habit {
   id        Int        @id @default(autoincrement())
   userId    Int
   name      String
-  frequency Int
   dataType  String
   user      User       @relation(fields: [userId], references: [id])
   habitLogs HabitLog[]
