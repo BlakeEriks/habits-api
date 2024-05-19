@@ -1,6 +1,8 @@
-import { Prisma, PrismaClient, User, UserSession } from '@prisma/client'
+import { Message, Prisma, PrismaClient, User, UserSession } from '@prisma/client'
 import { Request, Response } from 'express'
-import { setUserSession } from '../utils/database'
+import { get } from 'lodash'
+import { clearUserSession, setUserSession } from '../utils/database'
+import { sendMessage } from '../utils/telegram'
 
 const prisma = new PrismaClient()
 
@@ -10,83 +12,87 @@ enum HabitDataType {
   TIME,
 }
 
-export async function handleEmptySession(req: Request, res: Response, user: User) {
-  const { text } = req.body
+const DEFAULT_MESSAGE = `
+I am the habit tracking bot! I can help you stay accountable to the habits you want to build.
 
-  if (text === 'help') {
-    res.send('Available commands are: list, report, new')
-  } else if (text === 'habit list') {
+Available commands:
+
+- /new: Create a new habit to track
+- /list: List the habits you are tracking
+- /remove: Remove a habit you are tracking
+`
+
+export async function handleEmptySession(user: User, { text }: Message) {
+  if (text === '/list') {
     const habits = await prisma.habit.findMany({
       where: { userId: user.id },
     })
+    if (!habits.length) {
+      return sendMessage(
+        user.telegramId,
+        'You are not tracking any habits yet. Use /new to start tracking a habit.'
+      )
+    }
+
     const habitStr = habits.map((habit, idx) => `${idx + 1}: ${habit.name}`).join('\n')
-    res.send(`Habits you are tracking:\n${habitStr}`)
-  } else if (text === 'habit new') {
+    sendMessage(user.telegramId, `Habits you are tracking:\n${habitStr}`)
+  } else if (text === '/new') {
     await setUserSession(user.id, 'NEW_HABIT:AWAITING_HABIT_NAME')
-    res.send('What is the name of the habit you would like to track?')
-  } else if (text === 'habit remove') {
+    sendMessage(user.telegramId, 'What is the name of the habit you would like to track?')
+  } else if (text === '/remove') {
     await setUserSession(user.id, 'HABIT_REMOVE:AWAITING_HABIT_NUMBER')
-    res.send('Enter the number of the habit you would like to remove')
+    sendMessage(user.telegramId, 'Enter the number of the habit you would like to remove')
   } else {
-    res.send('Unknown command. Type "help" for available commands.')
+    sendMessage(user.telegramId, DEFAULT_MESSAGE)
   }
 }
 
-export async function handleNewHabit(
-  req: Request,
-  res: Response,
-  user: User,
-  session: UserSession
-) {
-  const { text } = req.body
-
+export async function handleNewHabit(user: User, session: UserSession, { text }: Message) {
   switch (session.state) {
     case 'NEW_HABIT:AWAITING_HABIT_NAME':
       await setUserSession(user.id, 'NEW_HABIT:AWAITING_HABIT_DATA_TYPE', {
         ...(session.data as object),
         habitName: text,
       })
-      res.send(`What type of data will this habit track? Options:
+      sendMessage(
+        user.telegramId,
+        `What type of data will this habit track? Options:
             1: Number (10 pushups),
             2: Binary (I took a cold shower today),
             3: Time (I woke up at 6am)
-            0: Cancel`)
+            0: Cancel`
+      )
       break
     case 'NEW_HABIT:AWAITING_HABIT_DATA_TYPE':
-      const { habitName } = session.data as any
-      if (!HabitDataType[text - 1]) {
-        res.send(`Invalid response. Valid Options: 
+      const habitName = get(session.data, 'habitName')!
+      if (!HabitDataType[parseInt(text) - 1]) {
+        sendMessage(
+          user.telegramId,
+          `Invalid response. Valid Options: 
             1: Number (10 pushups),
             2: Binary (I took a cold shower today),
-            3: Time (I woke up at 6am)`)
+            3: Time (I woke up at 6am)`
+        )
+
         return
       }
 
       const data: Prisma.HabitCreateInput = {
+        name: habitName,
+        dataType: text,
         user: {
           connect: {
             id: user.id,
           },
         },
-        name: habitName,
-        dataType: text,
       }
 
       await prisma.habit.create({ data })
       await setUserSession(user.id, 'INITIAL')
-      res.send(`Habit '${habitName}' tracking setup complete!`)
+      sendMessage(user.telegramId, `Habit '${habitName}' tracking setup complete!`)
       break
     default:
-      await prisma.userSession.update({
-        where: {
-          userId: user.id,
-        },
-        data: {
-          state: 'INITIAL',
-          data: {},
-        },
-      })
-      res.send('Unknown error. Try again.')
+      await clearUserSession(user.id)
       break
   }
 }
