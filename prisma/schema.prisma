@@ -7,24 +7,21 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model ChatMessage {
-  id          Int      @id @default(autoincrement())
-  content     String
-  senderId    Int
-  recipientId Int
-  created     DateTime
-  sender      User     @relation("Sender", fields: [senderId], references: [id])
-  recipient   User     @relation("Recipient", fields: [recipientId], references: [id])
+model Message {
+  id      Int      @id @default(autoincrement())
+  text    String
+  userId  Int
+  created DateTime
+  user    User     @relation(fields: [userId], references: [id])
 }
 
 model User {
-  id               Int           @id @default(autoincrement())
-  phone_number     String        @unique
-  name             String
-  sentMessages     ChatMessage[] @relation("Sender")
-  receivedMessages ChatMessage[] @relation("Recipient")
-  habits           Habit[]
-  ChatFormSequence UserSession[]
+  id          Int          @id @default(autoincrement())
+  telegramId  BigInt       @unique
+  first_name  String
+  messages    Message[]
+  habits      Habit[]
+  UserSession UserSession?
 }
 
 model Habit {
@@ -45,8 +42,7 @@ model HabitLog {
 }
 
 model UserSession {
-  id     Int    @id @default(autoincrement())
-  userId Int    @unique
+  userId Int    @id @unique
   state  String
   data   Json
   user   User   @relation(fields: [userId], references: [id])
