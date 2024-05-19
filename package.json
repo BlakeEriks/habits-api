@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "npx nodemon src/index.ts",
+    "habitBot": "npx nodemon src/index.ts",
+    "sceneBot": "npx nodemon src/sceneBot.ts",
     "test": "dotenv -e .env.test -- jest",
     "migrate:test": "dotenv -e .env.test -- npx prisma migrate dev"
   },
@@ -34,6 +35,8 @@
     "dotenv-cli": "^7.4.1",
     "express": "^4.19.2",
     "lodash": "^4.17.21",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "ngrok": "^5.0.0-beta.2",
+    "telegraf": "^4.16.3"
   }
 }
