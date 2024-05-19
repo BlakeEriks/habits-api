@@ -1,36 +1,34 @@
 import { PrismaClient } from '@prisma/client'
-import { NextFunction, Request, Response } from 'express'
+import { MiddlewareFn } from 'telegraf'
+import { HabitContext } from '../types'
 
 const prisma = new PrismaClient()
 
 // Middleware to attach user to request
-const attachUserToRequest = async (req: Request, res: Response, next: NextFunction) => {
-  const { number } = req.body
-  if (!number) {
-    return res.status(400).send('Phone number is required')
-  }
+const attachUserToRequest: MiddlewareFn<HabitContext> = async (ctx, next) => {
+  if (!ctx.message) return await next()
+
+  const { id, first_name } = ctx.message.from
 
   try {
     let user = await prisma.user.findUnique({
-      where: { phone_number: number },
+      where: { telegramId: id },
     })
 
     if (!user) {
       user = await prisma.user.create({
         data: {
-          phone_number: number,
-          name: '',
+          telegramId: id,
+          first_name: first_name,
         },
       })
-      console.log('User created for number:', number)
+      console.log('User created for: ', first_name, ', ', id)
     }
 
     // Attach user to the request object
-    ;(req as any).user = user
-
-    next()
+    ctx.user = user
+    await next()
   } catch (error) {
-    res.status(500).send('Failed to retrieve or create user')
     console.error('Error attaching user to request:', error)
   }
 }

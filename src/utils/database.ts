@@ -1,30 +1,15 @@
 // utils/database.ts
 import { PrismaClient } from '@prisma/client'
 
-const prisma = new PrismaClient();
-
-export async function getUserByPhoneNumber(phoneNumber: string) {
-  return prisma.user.findUnique({
-    where: { phone_number: phoneNumber },
-  });
-}
-
-export async function createUser(phoneNumber: string) {
-  return prisma.user.create({
-    data: {
-      phone_number: phoneNumber,
-      name: '',
-    },
-  });
-}
+const prisma = new PrismaClient()
 
 export async function getSession(userId: number) {
   return prisma.userSession.findFirst({
     where: { userId },
-  });
+  })
 }
 
-export function setUserSession(userId: number, state: string, data: any = {}) {
+export function setUserSession(userId: number, state: string, data: object = {}) {
   return prisma.userSession.upsert({
     where: { userId },
     create: {
@@ -36,5 +21,11 @@ export function setUserSession(userId: number, state: string, data: any = {}) {
       state,
       data,
     },
-  });
+  })
+}
+
+export function clearUserSession(userId: number) {
+  return prisma.userSession.delete({
+    where: { userId },
+  })
 }
