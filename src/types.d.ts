@@ -5,6 +5,7 @@ interface HabitSession extends Scenes.SceneSession {
   expecting: string
   habit: Partial<Habit>
   habits: Habit[]
+  currentHabit: number
 }
 
 interface HabitContext extends Context {
