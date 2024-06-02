@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "darwin"]
 }
 
 datasource db {
@@ -38,7 +39,7 @@ model HabitLog {
   habitId Int
   date    DateTime
   value   String
-  habit   Habit    @relation(fields: [habitId], references: [id])
+  habit   Habit    @relation(fields: [habitId], references: [id], onDelete: Cascade)
 }
 
 model UserSession {
