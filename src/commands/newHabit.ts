@@ -23,7 +23,6 @@ const HABIT_DATA_TYPES = [
   },
 ]
 
-// New Habit Scene
 const newHabitScene = new Scenes.BaseScene<HabitContext>('newHabit')
 newHabitScene.enter(ctx => {
   ctx.session.expecting = 'name'

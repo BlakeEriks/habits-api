@@ -5,7 +5,6 @@ import { HabitContext } from '../types'
 
 const prisma = new PrismaClient()
 
-// Remove Habit Scene
 const removeHabitScene = new Scenes.BaseScene<HabitContext>('removeHabit')
 removeHabitScene.enter(async ctx => {
   if (ctx.habits.length === 0) return ctx.reply('You have no habits to remove.')

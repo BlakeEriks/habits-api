@@ -6,7 +6,6 @@ import { HabitContext } from '../types'
 
 const prisma = new PrismaClient()
 
-// List of timezones from Los Angeles to Stockholm
 const TIMEZONE_OPTIONS = [
   'America/Los_Angeles',
   'America/Denver',
