@@ -5,7 +5,7 @@ import { HabitContext } from '../types'
 const prisma = new PrismaClient()
 
 // Middleware to attach user to request
-const attachUserToRequest: MiddlewareFn<HabitContext> = async (ctx, next) => {
+const attachUser: MiddlewareFn<HabitContext> = async (ctx, next) => {
   if (!ctx.message) return await next()
 
   const { id, first_name } = ctx.message.from
@@ -27,10 +27,10 @@ const attachUserToRequest: MiddlewareFn<HabitContext> = async (ctx, next) => {
 
     // Attach user to the request object
     ctx.user = user
-    await next()
+    return next()
   } catch (error) {
     console.error('Error attaching user to request:', error)
   }
 }
 
-export default attachUserToRequest
+export default attachUser
