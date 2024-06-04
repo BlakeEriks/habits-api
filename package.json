@@ -7,7 +7,8 @@
     "habitBot": "npx nodemon src/index.ts",
     "sceneBot": "npx nodemon src/sceneBot.ts",
     "test": "dotenv -e .env.test -- jest",
-    "migrate:test": "dotenv -e .env.test -- npx prisma migrate dev"
+    "migrate:test": "dotenv -e .env.test -- npx prisma migrate dev",
+    "build": "tsc && prisma generate"
   },
   "keywords": [],
   "author": "",
