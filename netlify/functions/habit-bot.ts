@@ -2,6 +2,7 @@ import habitBot from '../../src/habitBot'
 
 exports.handler = async event => {
   try {
+    console.log(event.body)
     await habitBot.handleUpdate(JSON.parse(event.body))
     return {
       statusCode: 200,
