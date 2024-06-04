@@ -17,13 +17,12 @@ model Message {
 }
 
 model User {
-  id          Int          @id @default(autoincrement())
-  telegramId  BigInt       @unique
-  first_name  String
-  messages    Message[]
-  habits      Habit[]
-  timezone    String       @default("UTC")
-  UserSession UserSession?
+  id         Int       @id @default(autoincrement())
+  telegramId BigInt    @unique
+  first_name String
+  messages   Message[]
+  habits     Habit[]
+  timezone   String    @default("UTC")
 }
 
 model Habit {
@@ -33,6 +32,7 @@ model Habit {
   dataType  String
   user      User       @relation(fields: [userId], references: [id])
   habitLogs HabitLog[]
+  Reminder  Reminder[]
 }
 
 model HabitLog {
@@ -43,9 +43,9 @@ model HabitLog {
   habit   Habit    @relation(fields: [habitId], references: [id], onDelete: Cascade)
 }
 
-model UserSession {
-  userId Int    @id @unique
-  state  String
-  data   Json
-  user   User   @relation(fields: [userId], references: [id])
+model Reminder {
+  id      Int    @id @default(autoincrement())
+  habitId Int
+  time    String
+  habit   Habit  @relation(fields: [habitId], references: [id])
 }
