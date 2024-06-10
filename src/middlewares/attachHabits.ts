@@ -11,6 +11,7 @@ const attachHabits: MiddlewareFn<HabitContext> = async (ctx, next) => {
   try {
     ctx.habits = await prisma.habit.findMany({
       where: { userId: ctx.user.id },
+      include: { reminders: true },
     })
     return next()
   } catch (error) {
