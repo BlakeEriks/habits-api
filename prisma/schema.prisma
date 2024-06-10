@@ -1,6 +1,6 @@
 generator client {
   provider      = "prisma-client-js"
-  binaryTargets = ["native", "darwin"]
+  // binaryTargets = ["native", "darwin"]
 }
 
 datasource db {
@@ -31,8 +31,8 @@ model Habit {
   name      String
   dataType  String
   user      User       @relation(fields: [userId], references: [id])
+  reminders Reminder[]
   habitLogs HabitLog[]
-  Reminder  Reminder[]
 }
 
 model HabitLog {
@@ -48,4 +48,6 @@ model Reminder {
   habitId Int
   time    String
   habit   Habit  @relation(fields: [habitId], references: [id])
+
+  @@unique([habitId, time])
 }
