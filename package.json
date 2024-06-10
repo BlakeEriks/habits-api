@@ -7,7 +7,8 @@
     "habitBot": "ENV=dev npx nodemon src/index.ts",
     "test": "dotenv -e .env.test -- jest",
     "migrate:test": "dotenv -e .env.test -- npx prisma migrate dev",
-    "build": "tsc && prisma generate",
+    "migrate:prod": "dotenv -e .env.prod -- npx prisma migrate dev",
+    "build": "prisma generate && tsc",
     "webhook": "npx ts-node scripts/telegramWebhook.ts"
   },
   "keywords": [],
