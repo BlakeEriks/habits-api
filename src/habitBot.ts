@@ -1,4 +1,3 @@
-import { config } from 'dotenv'
 import { Scenes, session, Telegraf } from 'telegraf'
 import { message } from 'telegraf/filters'
 import { HABIT_COMMANDS, HABIT_SCENES } from './commands/habits'
@@ -8,8 +7,6 @@ import attachHabits from './middlewares/attachHabits'
 import attachUser from './middlewares/attachUser'
 import saveMessage from './middlewares/saveMessage'
 import { HabitContext } from './types'
-
-config()
 
 const commandGroups = [
   { name: 'Habits', commands: HABIT_COMMANDS },
