@@ -4,14 +4,9 @@ import { config } from 'dotenv'
 config({ path: '.env.prod' })
 
 const command = process.argv[2]
-const bot = process.argv[3]
 
 if (!command) {
   throw new Error('Command is required')
-}
-
-if (!bot) {
-  throw new Error('Bot is required')
 }
 
 if (!process.env.BOT_TOKEN) {
@@ -40,5 +35,10 @@ async function getWebhookInfo() {
 if (command === 'get') {
   getWebhookInfo()
 } else if (command === 'set') {
+  const bot = process.argv[3]
+
+  if (!process.env.NETLIFY_SERVER_URL || !bot) {
+    throw new Error('NETLIFY_SERVER_URL and bot are required')
+  }
   setWebhook(`${process.env.NETLIFY_SERVER_URL}/${bot}-bot`)
 }

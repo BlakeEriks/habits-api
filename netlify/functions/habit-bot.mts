@@ -1,9 +1,10 @@
 import { Config } from '@netlify/functions'
 import habitBot from '../../src/habitBot'
 
-export default async (req: Request) => {
+export default async event => {
   try {
-    return habitBot.handleUpdate(JSON.parse(await req.json()))
+    habitBot.handleUpdate(JSON.parse(event.body))
+    return new Response('OK')
   } catch (e) {
     return new Response('This endpoint is meant for bot and telegram communication', {
       status: 500,
