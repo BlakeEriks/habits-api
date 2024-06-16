@@ -70,7 +70,7 @@ export default async (req: Request) => {
     console.log(`Sending ${reminders.length} reminders...`)
 
     for (const reminder of reminders) {
-      const message = `⏰ Reminder: It's time to log your habit: ${reminder.habit.name}`
+      const message = `⏰ Reminder: Don't forget about your ${reminder.habit.name}!`
       await habitBot.telegram.sendMessage(reminder.habit.user.telegramId.toString(), message)
     }
 
