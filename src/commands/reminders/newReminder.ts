@@ -1,12 +1,9 @@
-import { PrismaClient } from '@prisma/client'
 import moment from 'moment-timezone'
 import { Markup, Scenes } from 'telegraf'
 import { message } from 'telegraf/filters'
 import { createReminder } from '../../db/reminder'
 import { HabitContext } from '../../types'
 import { replyAndLeave } from '../utils'
-
-const prisma = new PrismaClient()
 
 const newReminderScene = new Scenes.BaseScene<HabitContext>('newReminder')
 
@@ -19,10 +16,7 @@ newReminderScene.enter(async ctx => {
   )
 })
 
-newReminderScene.command('back', async ctx => {
-  await ctx.reply('Cancelled habit reminder.', Markup.removeKeyboard())
-  return ctx.scene.leave()
-})
+newReminderScene.command('back', replyAndLeave('Cancelled habit reminder.'))
 
 newReminderScene.on(message('text'), async ctx => {
   const times = Array.from({ length: 12 }, (_, i) => {

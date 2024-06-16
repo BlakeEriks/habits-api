@@ -9,7 +9,7 @@ interface HabitSession extends Scenes.SceneSession {
   expecting: string
   habit: Partial<Habit>
   currentHabit: number
-  action: string
+  habitLogs: Prisma.HabitLogCreateManyInput[]
 }
 
 interface HabitContext extends Context {

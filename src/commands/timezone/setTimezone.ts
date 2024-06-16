@@ -24,10 +24,8 @@ setTimezoneScene.enter(async ctx => {
     Markup.keyboard(keyboardOptions).oneTime().resize()
   )
 })
-setTimezoneScene.command('back', async ctx => {
-  await ctx.reply('Cancelled timezone setup.', Markup.removeKeyboard())
-  return ctx.scene.leave()
-})
+setTimezoneScene.command('back', replyAndLeave('Cancelled timezone setup.'))
+
 setTimezoneScene.on(message('text'), async ctx => {
   const timezone = ctx.message.text
   if (moment.tz.zone(timezone)) {

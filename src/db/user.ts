@@ -7,3 +7,5 @@ export const updateUser = (id: number, data: Partial<User>) =>
     where: { id },
     data,
   })
+
+export const getAllUsers = () => prisma.user.findMany()

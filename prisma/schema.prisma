@@ -22,7 +22,7 @@ model User {
   first_name String
   messages   Message[]
   habits     Habit[]
-  timezone   String    @default("UTC")
+  timezone   String    @default("America/New_York")
 }
 
 model Habit {
@@ -38,7 +38,7 @@ model Habit {
 model HabitLog {
   id      Int      @id @default(autoincrement())
   habitId Int
-  date    DateTime
+  date    DateTime  @unique @db.Date
   value   String
   habit   Habit    @relation(fields: [habitId], references: [id], onDelete: Cascade)
 }
