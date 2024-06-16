@@ -3,7 +3,7 @@ import habitBot from '../../src/habitBot'
 
 export default async event => {
   try {
-    habitBot.handleUpdate(JSON.parse(event.body))
+    await habitBot.handleUpdate(JSON.parse(event.body))
     return new Response('OK')
   } catch (e) {
     return new Response('This endpoint is meant for bot and telegram communication', {
