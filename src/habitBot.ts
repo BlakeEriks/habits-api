@@ -34,12 +34,9 @@ Available commands:
 ${availableCommands.join('\n\n')}
 `
 
-const BOT_TOKEN =
-  process.env.ENV === 'dev' ? process.env.DEV_BOT_TOKEN : process.env.HABIT_BOT_TOKEN
+if (!process.env.BOT_TOKEN) throw new Error('BOT_TOKEN is required')
 
-if (!BOT_TOKEN) throw new Error('BOT_TOKEN is required')
-
-const habitBot = new Telegraf<HabitContext>(BOT_TOKEN)
+const habitBot = new Telegraf<HabitContext>(process.env.BOT_TOKEN)
 
 const stage = new Scenes.Stage<HabitContext>([
   ...HABIT_SCENES,
@@ -61,4 +58,5 @@ for (const { name, action } of allCommands) {
 
 // Default
 habitBot.on(message('text'), async ctx => ctx.reply(DEFAULT_MESSAGE))
+
 export default habitBot

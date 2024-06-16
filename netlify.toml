@@ -1,7 +1,2 @@
 [build]
 functions = "netlify/functions"
-
-[[redirects]]
-from = "/habit-bot"
-to = "/.netlify/functions/habit-bot"
-status = 200

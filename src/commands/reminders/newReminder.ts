@@ -1,22 +1,22 @@
 import { PrismaClient } from '@prisma/client'
+import moment from 'moment-timezone'
 import { Markup, Scenes } from 'telegraf'
 import { message } from 'telegraf/filters'
+import { createReminder } from '../../db/reminder'
 import { HabitContext } from '../../types'
+import { replyAndLeave } from '../utils'
 
 const prisma = new PrismaClient()
 
 const newReminderScene = new Scenes.BaseScene<HabitContext>('newReminder')
 
 newReminderScene.enter(async ctx => {
-  const { action } = ctx.scene as any
-  if (action === 'set') {
-    ctx.session.expecting = 'name'
-    const habitButtons = ctx.habits.map(habit => [habit.name])
-    await ctx.reply(
-      `Which habit would you like to set a reminder for?\n\nOr go /back`,
-      Markup.keyboard(habitButtons).oneTime().resize()
-    )
-  }
+  ctx.session.expecting = 'name'
+  const habitButtons = ctx.habits.map(habit => [habit.name])
+  await ctx.reply(
+    `Which habit would you like to set a reminder for?\n\nOr go /back`,
+    Markup.keyboard(habitButtons).oneTime().resize()
+  )
 })
 
 newReminderScene.command('back', async ctx => {
@@ -25,9 +25,10 @@ newReminderScene.command('back', async ctx => {
 })
 
 newReminderScene.on(message('text'), async ctx => {
-  const times = Array.from({ length: 24 }, (_, i) => {
-    const hour = i.toString().padStart(2, '0')
-    return [`${hour}:00`, `${hour}:30`]
+  const times = Array.from({ length: 12 }, (_, i) => {
+    const hourOne = (i * 2).toString().padStart(2, '0')
+    const hourTwo = (i * 2 + 1).toString().padStart(2, '0')
+    return [`${hourOne}:00`, `${hourTwo}:00`]
   }).flat()
 
   // Function to chunk the array into rows
@@ -44,10 +45,10 @@ newReminderScene.on(message('text'), async ctx => {
   switch (ctx.session.expecting) {
     case 'name':
       const habitIdx = ctx.habits?.findIndex(h => h.name === ctx.message.text)
-      ctx.session.expecting = 'time'
       if (habitIdx === -1) {
         return ctx.reply('ERROR - Habit not found.')
       }
+      ctx.session.expecting = 'time'
       ctx.session.currentHabit = habitIdx
       // Create an array of times at every hour and half hour
       return ctx.reply(
@@ -63,23 +64,18 @@ newReminderScene.on(message('text'), async ctx => {
       if (!times.includes(time)) {
         return ctx.reply('ERROR - Invalid time selection.')
       }
+
+      // Parse the time using moment and convert it to UTC
+      const UTCTime = moment.tz(time, 'HH:mm', ctx.user.timezone).utc().format('HH:mm')
+
       try {
-        await prisma.reminder.create({
-          data: {
-            time: ctx.message.text,
-            habitId: currentHabit.id,
-          },
-        })
+        await createReminder({ habitId: currentHabit.id, time: UTCTime })
       } catch (e) {
         return ctx.reply('ERROR - Reminder already exists for this habit at this time.')
       }
-      await ctx.reply(
-        `Reminder for habit '${currentHabit.name}' setup complete!`,
-        Markup.removeKeyboard()
-      )
-      return ctx.scene.leave()
+      return replyAndLeave(`Reminder for habit '${currentHabit.name}' setup complete!`)(ctx)
     default:
-      return ctx.reply('ERROR - Invalid response', Markup.removeKeyboard())
+      return ctx.reply('', Markup.removeKeyboard())
   }
 })
 

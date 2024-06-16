@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { config } from 'dotenv'
 
-config()
+config({ path: '.env.prod' })
 
 const command = process.argv[2]
 const bot = process.argv[3]
@@ -14,16 +14,14 @@ if (!bot) {
   throw new Error('Bot is required')
 }
 
-const BOT_TOKEN = process.env[`${bot.toUpperCase()}_BOT_TOKEN`]
-
-if (!BOT_TOKEN) {
+if (!process.env.BOT_TOKEN) {
   throw new Error('BOT_TOKEN is required')
 }
 
 async function setWebhook(webhookUrl: string) {
   console.log('Setting webhook for bot with URL:', webhookUrl)
   const response = await axios.post(
-    `https://api.telegram.org/bot${BOT_TOKEN}/setWebhook?url=${webhookUrl}`
+    `https://api.telegram.org/bot${process.env.BOT_TOKEN}/setWebhook?url=${webhookUrl}`
   )
   console.log(response.data)
 
@@ -31,7 +29,9 @@ async function setWebhook(webhookUrl: string) {
 }
 
 async function getWebhookInfo() {
-  const response = await axios.get(`https://api.telegram.org/bot${BOT_TOKEN}/getWebhookInfo`)
+  const response = await axios.get(
+    `https://api.telegram.org/bot${process.env.BOT_TOKEN}/getWebhookInfo`
+  )
   console.log(response.data)
 
   return response.data

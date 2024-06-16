@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "habitBot": "ENV=dev npx nodemon src/index.ts",
+    "habitBot": "dotenv -e .env.dev npx nodemon src/index.ts",
     "test": "dotenv -e .env.test -- jest",
     "migrate:test": "dotenv -e .env.test -- npx prisma migrate dev",
     "migrate:prod": "dotenv -e .env.prod -- npx prisma migrate dev",
     "build": "prisma generate && tsc",
-    "webhook": "npx ts-node scripts/telegramWebhook.ts"
+    "webhook": "dotenv -e .env.prod npx ts-node scripts/telegramWebhook.ts",
+    "netlify-dev": "dotenv -e .env.dev netlify dev"
   },
   "keywords": [],
   "author": "",
@@ -30,15 +31,18 @@
     "typescript": "^5.4.5"
   },
   "dependencies": {
+    "@netlify/functions": "^2.7.0",
     "@prisma/client": "^5.12.1",
     "axios": "^1.6.8",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "dotenv-cli": "^7.4.1",
+    "esbuild": "^0.21.5",
     "express": "^4.19.2",
     "lodash": "^4.17.21",
     "moment-timezone": "^0.5.45",
     "morgan": "^1.10.0",
+    "netlify-cli": "^17.26.2",
     "ngrok": "^5.0.0-beta.2",
     "telegraf": "^4.16.3"
   }
