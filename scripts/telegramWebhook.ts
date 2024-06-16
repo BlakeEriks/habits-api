@@ -1,7 +1,4 @@
 import axios from 'axios'
-import { config } from 'dotenv'
-
-config({ path: '.env.prod' })
 
 const command = process.argv[2]
 
