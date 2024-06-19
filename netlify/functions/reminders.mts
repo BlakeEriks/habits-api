@@ -21,7 +21,7 @@ const getUserLocalTime = (user: User) => moment.tz(new Date(), user.timezone)
 const getHasLoggedToday = async (user: User) => {
   const userTime = getUserLocalTime(user)
   const latestHabitLog = await getLatestHabitLog(user.id)
-  if (!latestHabitLog) return true
+  if (!latestHabitLog) return false
 
   return (
     latestHabitLog.date.getDate() === userTime.date() &&
