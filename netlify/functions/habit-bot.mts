@@ -1,16 +1,13 @@
-import { Config, HandlerResponse } from '@netlify/functions'
+import { Config } from '@netlify/functions'
 import habitBot from '../../src/habitBot'
 
-export default async event => {
+export default async (event: Request) => {
   try {
-    if (event.httpMethod !== 'POST' || !event.body) {
-      return new Response('This endpoint only accepts POST requests')
+    if (event.method !== 'POST') {
+      return new Response('This endpoint only accepts POST requests', { status: 405 })
     }
-    await habitBot.handleUpdate(JSON.parse(event.body))
-    return {
-      statusCode: 200,
-      body: JSON.stringify({ message: 'Success' }),
-    } as HandlerResponse
+    await habitBot.handleUpdate(await event.json())
+    return new Response('Success')
   } catch (e) {
     console.error('Error processing update:', e)
     return new Response('Error processing update', { status: 500 })
