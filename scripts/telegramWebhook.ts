@@ -37,5 +37,6 @@ if (command === 'get') {
   if (!process.env.NETLIFY_SERVER_URL || !bot) {
     throw new Error('NETLIFY_SERVER_URL and bot are required')
   }
+  // setWebhook(`https://97a4-207-96-73-117.ngrok-free.app/${bot}-bot`)
   setWebhook(`${process.env.NETLIFY_SERVER_URL}/${bot}-bot`)
 }
