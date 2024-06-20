@@ -5,7 +5,7 @@ import { getLatestHabitLog } from '../../src/db/habitLog'
 import { getAllUsers } from '../../src/db/user'
 import habitBot from '../../src/habitBot'
 
-const NOTIFICATION_HOUR = 9
+const NOTIFICATION_HOUR = 21
 
 const prisma = new PrismaClient()
 
