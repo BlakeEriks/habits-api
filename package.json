@@ -12,7 +12,7 @@
     "reset:prod": "dotenv -e .env.prod -- npx prisma migrate reset",
     "build": "prisma generate && tsc",
     "webhook": "dotenv -e .env.prod npx ts-node scripts/telegramWebhook.ts",
-    "netlify-dev": "dotenv -e .env.dev netlify dev"
+    "netlify-dev": "dotenv -e .env.prod netlify dev"
   },
   "keywords": [],
   "author": "",

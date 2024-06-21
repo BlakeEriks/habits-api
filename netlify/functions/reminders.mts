@@ -5,7 +5,7 @@ import { getLatestHabitLog } from '../../src/db/habitLog'
 import { getAllUsers } from '../../src/db/user'
 import habitBot from '../../src/habitBot'
 
-const NOTIFICATION_HOUR = 21
+const NOTIFICATION_HOUR = 19
 
 const prisma = new PrismaClient()
 
@@ -14,6 +14,7 @@ const REMINDER_MESSAGES = [
   'Have you logged your habits today? /log_habits',
   "Don't forget to log your habits today! /log_habits",
   "It's getting late, but not too late to log your habits!! /log_habits",
+  "Last chance, don't miss out on logging your habits! /log_habits",
 ]
 
 const getUserLocalTime = (user: User) => moment.tz(new Date(), user.timezone)
