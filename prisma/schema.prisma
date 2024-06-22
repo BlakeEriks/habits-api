@@ -38,9 +38,11 @@ model Habit {
 model HabitLog {
   id      Int      @id @default(autoincrement())
   habitId Int
-  date    DateTime  @unique @db.Date
+  date    DateTime  @db.Date
   value   String
   habit   Habit    @relation(fields: [habitId], references: [id], onDelete: Cascade)
+
+  @@unique([habitId, date])
 }
 
 model Reminder {

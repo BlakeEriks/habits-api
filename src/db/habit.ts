@@ -11,7 +11,7 @@ export const saveHabitLogs = (data: Prisma.HabitLogCreateManyInput[]) =>
   Promise.all(
     data.map(log =>
       prisma.habitLog.upsert({
-        where: { habitId: log.habitId, date: log.date },
+        where: { habitId_date: { habitId: log.habitId, date: log.date } },
         update: {
           value: log.value,
         },
