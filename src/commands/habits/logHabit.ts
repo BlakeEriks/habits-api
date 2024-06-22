@@ -40,7 +40,7 @@ logHabitScene.on(message('text'), async ctx => {
   return proceedToNextHabit(ctx)
 })
 
-function promptForHabitData(ctx: HabitContext) {
+const promptForHabitData = (ctx: HabitContext) => {
   const currentHabit = ctx.habits[ctx.session.currentHabit]
   let promptMessage = `Please provide data for the habit: ${currentHabit.name}\n`
 
@@ -67,12 +67,13 @@ const proceedToNextHabit = async (ctx: HabitContext) => {
   if (ctx.session.currentHabit! < ctx.habits!.length) {
     return promptForHabitData(ctx)
   } else {
+    console.log('Saving habits ', ctx.session.habitLogs)
     await saveHabitLogs(ctx.session.habitLogs)
     return replyAndLeave('All habit data has been filled out. Thank you!')(ctx)
   }
 }
 
-function isValidTime(time: string): boolean {
+const isValidTime = (time: string): boolean => {
   const timeRegex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/
   return timeRegex.test(time)
 }
@@ -89,4 +90,5 @@ const validateHabitLog = (habit: Habit, value: string) => {
       return false
   }
 }
+
 export default logHabitScene

@@ -1,4 +1,4 @@
-import { Scenes, session, Telegraf } from 'telegraf'
+import { Markup, Scenes, session, Telegraf } from 'telegraf'
 import { message } from 'telegraf/filters'
 import { HABIT_COMMANDS, HABIT_SCENES } from './commands/habits'
 import { REMINDER_COMMANDS, REMINDER_SCENES } from './commands/reminders'
@@ -54,6 +54,6 @@ for (const { name, action } of allCommands) {
 }
 
 // Default
-habitBot.on(message('text'), async ctx => ctx.reply(DEFAULT_MESSAGE))
+habitBot.on(message('text'), async ctx => ctx.reply(DEFAULT_MESSAGE, Markup.removeKeyboard()))
 
 export default habitBot
