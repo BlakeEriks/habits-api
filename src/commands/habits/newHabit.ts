@@ -25,16 +25,20 @@ const HABIT_DATA_TYPES = [
 ]
 
 export const NEW_HABIT_SCENE = 'NEW_HABIT_SCENE'
+enum NEW_HABIT_FIELDS {
+  NAME = 'name',
+  DATA_TYPE = 'dataType',
+}
 export const newHabitScene = new Scenes.BaseScene<HabitContext>(NEW_HABIT_SCENE)
 newHabitScene.enter(ctx => {
-  ctx.session.expecting = 'name'
+  ctx.session.expecting = NEW_HABIT_FIELDS.NAME
   ctx.session.habit = {}
   return ctx.reply(`What is the name of the habit you would like to track?\n\nOr go /back`)
 })
 newHabitScene.command('back', replyAndLeave('Cancelled habit creation.'))
 newHabitScene.on(message('text'), async ctx => {
   switch (ctx.session.expecting) {
-    case 'name':
+    case NEW_HABIT_FIELDS.NAME:
       ctx.session.habit.name = ctx.message.text
       ctx.session.expecting = 'dataType'
       return ctx.reply(
@@ -43,7 +47,7 @@ newHabitScene.on(message('text'), async ctx => {
           .oneTime()
           .resize()
       )
-    case 'dataType':
+    case NEW_HABIT_FIELDS.DATA_TYPE:
       ctx.session.habit.dataType = HABIT_DATA_TYPES.find(
         type => type.emoji + ' ' + type.name === ctx.message.text
       )!.id

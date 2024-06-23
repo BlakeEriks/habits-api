@@ -1,7 +1,7 @@
 import { Command } from '../../types'
 import { enterScene } from '../utils'
 import listReminders from './listReminders'
-import newReminderScene from './newReminder'
+import newReminderScene, { NEW_REMINDER_SCENE } from './newReminder'
 
 export const REMINDER_SCENES = [newReminderScene]
 
@@ -14,6 +14,6 @@ export const REMINDER_COMMANDS: Command[] = [
   {
     name: 'new_reminder',
     description: 'Create a new reminder',
-    action: enterScene('newReminder'),
+    action: enterScene(NEW_REMINDER_SCENE),
   },
 ]

@@ -5,7 +5,12 @@ import { createReminder } from '../../db/reminder'
 import { HabitContext } from '../../types'
 import { replyAndLeave } from '../utils'
 
-const newReminderScene = new Scenes.BaseScene<HabitContext>('newReminder')
+export const NEW_REMINDER_SCENE = 'NEW_REMINDER_SCENE'
+enum NEW_REMINDER_FIELDS {
+  NAME = 'name',
+  TIME = 'time',
+}
+const newReminderScene = new Scenes.BaseScene<HabitContext>(NEW_REMINDER_SCENE)
 
 newReminderScene.enter(async ctx => {
   ctx.session.expecting = 'name'
@@ -37,7 +42,7 @@ newReminderScene.on(message('text'), async ctx => {
   const chunkedTimes = chunkArray(times, 4)
 
   switch (ctx.session.expecting) {
-    case 'name':
+    case NEW_REMINDER_FIELDS.NAME:
       const habitIdx = ctx.habits?.findIndex(h => h.name === ctx.message.text)
       if (habitIdx === -1) {
         return ctx.reply('ERROR - Habit not found.')
@@ -49,7 +54,7 @@ newReminderScene.on(message('text'), async ctx => {
         'What time would you like to be reminded of this habit?',
         Markup.keyboard(chunkedTimes).oneTime().resize()
       )
-    case 'time':
+    case NEW_REMINDER_FIELDS.TIME:
       const currentHabit = ctx.habits[ctx.session.currentHabit]
       if (!currentHabit) {
         return ctx.reply('ERROR - Habit not found.')

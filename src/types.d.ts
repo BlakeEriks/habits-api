@@ -1,4 +1,4 @@
-import { Habit, Prisma, User } from '@prisma/client'
+import { Habit, Prisma, Reminder, User } from '@prisma/client'
 import { Context, Scenes } from 'telegraf'
 
 type HabitWithReminders = Prisma.HabitGetPayload<{
@@ -6,7 +6,7 @@ type HabitWithReminders = Prisma.HabitGetPayload<{
 }>
 
 interface HabitSession extends Scenes.SceneSession {
-  expecting: string
+  expecting: keyof Habit | keyof Reminder
   habit: Partial<Habit>
   currentHabit: number
   habitLogs: Prisma.HabitLogCreateManyInput[]
