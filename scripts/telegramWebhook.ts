@@ -1,42 +1,53 @@
 import axios from 'axios'
 
+const BOTS = ['habit', 'quippet']
+
 const command = process.argv[2]
+const bot = process.argv[3]
 
 if (!command) {
   throw new Error('Command is required')
 }
 
-if (!process.env.BOT_TOKEN) {
-  throw new Error('BOT_TOKEN is required')
+if (!bot || !BOTS.includes(bot)) {
+  throw new Error('Valid Bot is required')
 }
 
-async function setWebhook(webhookUrl: string) {
+const formatBotURL = (bot: string) => {
+  return `${process.env.NETLIFY_SERVER_URL}/${bot}-bot`
+}
+
+async function setWebhook(botToken: string, webhookUrl: string) {
   console.log('Setting webhook for bot with URL:', webhookUrl)
   const response = await axios.post(
-    `https://api.telegram.org/bot${process.env.BOT_TOKEN}/setWebhook?url=${webhookUrl}`
+    `https://api.telegram.org/bot${botToken}/setWebhook?url=${webhookUrl}`
   )
   console.log(response.data)
 
   return response.data
 }
 
-async function getWebhookInfo() {
-  const response = await axios.get(
-    `https://api.telegram.org/bot${process.env.BOT_TOKEN}/getWebhookInfo`
-  )
+async function getWebhookInfo(botToken: string) {
+  const response = await axios.get(`https://api.telegram.org/bot${botToken}/getWebhookInfo`)
   console.log(response.data)
 
   return response.data
+}
+
+const botToken = process.env[`${bot.toUpperCase()}_BOT_TOKEN`]
+
+if (!botToken) {
+  throw new Error(`${bot.toUpperCase()}_BOT_TOKEN is required`)
 }
 
 if (command === 'get') {
-  getWebhookInfo()
+  getWebhookInfo(botToken)
 } else if (command === 'set') {
   const bot = process.argv[3]
 
-  if (!process.env.NETLIFY_SERVER_URL || !bot) {
-    throw new Error('NETLIFY_SERVER_URL and bot are required')
+  if (!process.env.NETLIFY_SERVER_URL) {
+    throw new Error('NETLIFY_SERVER_URL is required')
   }
-  // setWebhook(`https://97a4-207-96-73-117.ngrok-free.app/${bot}-bot`)
-  setWebhook(`${process.env.NETLIFY_SERVER_URL}/${bot}-bot`)
+  const webhookUrl = formatBotURL(bot)
+  setWebhook(botToken, webhookUrl)
 }

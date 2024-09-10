@@ -1,5 +1,5 @@
 import { getHabitLogsSince } from '../../db/habitLog'
-import { HabitContext } from '../../types'
+import { HabitContext, HabitDataType } from '../../types'
 
 const habitSummary = async (ctx: HabitContext) => {
   if (!ctx.habits.length) {
@@ -17,18 +17,17 @@ const habitSummary = async (ctx: HabitContext) => {
   let summary: string[] = []
   for (const habit of ctx.habits) {
     const habitLogsForHabit = habitLogs.filter(log => log.habitId === habit.id)
-    console.log('logs ', habitLogsForHabit)
 
-    if (habit.dataType === 'bool') {
+    if (habit.dataType === HabitDataType.BOOL) {
       const count = habitLogsForHabit.reduce(
         (acc, habitLog) => +(habitLog.value === 'yes') + acc,
         0
       )
       summary.push(`[${habit.name}] Total: ${count} / 7`)
-    } else if (habit.dataType === 'number') {
+    } else if (habit.dataType === HabitDataType.NUMBER) {
       const sum = habitLogsForHabit.reduce((acc, habitLog) => Number(habitLog.value) + acc, 0)
       summary.push(`[${habit.name}] Total: ${sum}, Avg: ${(sum / 7).toFixed(1)}`)
-    } else if (habit.dataType === 'time') {
+    } else if (habit.dataType === HabitDataType.TIME) {
       const avg = averageTime(habitLogsForHabit.map(habitLog => habitLog.value))
       summary.push(`[${habit.name}] Avg: ${avg}`)
     } else {

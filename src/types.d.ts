@@ -5,6 +5,12 @@ type HabitWithReminders = Prisma.HabitGetPayload<{
   include: { reminders: true }
 }>
 
+export enum HabitDataType {
+  NUMBER = 'number',
+  BOOL = 'bool',
+  TIME = 'time',
+}
+
 interface HabitSession extends Scenes.SceneSession {
   expecting: keyof Habit | keyof Reminder
   habit: Partial<Habit>
