@@ -14,7 +14,7 @@ const habitSummary = async (ctx: HabitContext) => {
     return ctx.reply('You have not logged any habits in the past week.')
   }
 
-  let summary: string[] = []
+  const summary: string[] = []
   for (const habit of ctx.habits) {
     const habitLogsForHabit = habitLogs.filter(log => log.habitId === habit.id)
 

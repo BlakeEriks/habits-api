@@ -18,7 +18,7 @@ interface HabitSession extends Scenes.SceneSession {
   habitLogs: Prisma.HabitLogCreateManyInput[]
 }
 
-interface HabitContext extends Context {
+export interface HabitContext extends Context {
   user: User
   habits: HabitWithReminders[]
   session: HabitSession
