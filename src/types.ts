@@ -25,7 +25,7 @@ export interface HabitContext extends Context {
   scene: Scenes.SceneContextScene<HabitContext>
 }
 
-interface Command {
+export interface Command {
   name: string
   description: string
   action: (ctx: HabitContext) => void
