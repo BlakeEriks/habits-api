@@ -50,7 +50,7 @@ habitBot.use(stage.middleware())
 
 const allCommands = commandGroups.flatMap(({ commands }) => commands)
 for (const { name, action } of allCommands) {
-  habitBot.command(name, action)
+  habitBot.command(name, action as any)
 }
 
 // Default
