@@ -1,4 +1,4 @@
-import { Command } from '../../types'
+import { HabitCommand } from '../../types'
 import { enterScene } from '../utils'
 import listHabits from './listHabits'
 import logHabitScene, { LOG_HABIT_SCENE } from './logHabit'
@@ -8,7 +8,7 @@ import habitSummary from './summarizeHabits'
 
 export const HABIT_SCENES = [newHabitScene, removeHabitScene, logHabitScene]
 
-export const HABIT_COMMANDS: Command[] = [
+export const HABIT_COMMANDS: HabitCommand[] = [
   {
     name: 'list_habits',
     description: 'List the habits you are tracking',

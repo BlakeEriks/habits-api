@@ -1,9 +1,13 @@
-import { Markup } from 'telegraf'
-import { HabitContext } from '../types'
+import { Context, Markup } from 'telegraf'
 
-export const enterScene = (sceneName: string) => (ctx: HabitContext) => ctx.scene.enter(sceneName)
+interface ContextWithScene extends Context {
+  scene: any
+}
 
-export const replyAndLeave = (message: string) => async (ctx: HabitContext) => {
+export const enterScene = (sceneName: string) => (ctx: ContextWithScene) =>
+  ctx.scene.enter(sceneName)
+
+export const replyAndLeave = (message: string) => async (ctx: any) => {
   await ctx.replyWithHTML(message, Markup.removeKeyboard())
   return ctx.scene.leave()
 }
