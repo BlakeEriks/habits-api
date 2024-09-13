@@ -1,11 +1,11 @@
-import { Command } from '../../types'
+import { HabitCommand } from '../../types'
 import { enterScene } from '../utils'
 import listReminders from './listReminders'
 import newReminderScene, { NEW_REMINDER_SCENE } from './newReminder'
 
 export const REMINDER_SCENES = [newReminderScene]
 
-export const REMINDER_COMMANDS: Command[] = [
+export const REMINDER_COMMANDS: HabitCommand[] = [
   {
     name: 'list_reminders',
     description: 'List all of your reminders',
