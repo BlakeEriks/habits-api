@@ -1,11 +1,11 @@
+import { HabitContext, QuippetContext } from '@/types'
 import { PrismaClient } from '@prisma/client'
 import { MiddlewareFn } from 'telegraf'
-import { HabitContext } from '../types'
 
 const prisma = new PrismaClient()
 
 // Middleware to attach user to request
-const attachUser: MiddlewareFn<HabitContext> = async (ctx, next) => {
+const attachUser: MiddlewareFn<HabitContext | QuippetContext> = async (ctx, next) => {
   if (!ctx.message) return await next()
 
   const { id, first_name } = ctx.message.from

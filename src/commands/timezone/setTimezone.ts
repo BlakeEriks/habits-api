@@ -3,7 +3,7 @@ import { Markup, Scenes } from 'telegraf'
 import { message } from 'telegraf/filters'
 import { updateUser } from '../../db/user'
 import { HabitContext } from '../../types'
-import { replyAndLeave } from '../utils'
+import { replyAndLeave } from '../../util/telegraf'
 
 const TIMEZONE_OPTIONS = [
   'America/Los_Angeles',
