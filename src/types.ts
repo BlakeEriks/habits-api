@@ -1,6 +1,6 @@
 import { Habit, Prisma, Reminder, User } from '@prisma/client'
 import { Context, Scenes } from 'telegraf'
-import { Quote } from './prisma-quippet/src/generated/client'
+import { Quote } from './prisma-db/src/generated/client'
 
 /* Habit types */
 type HabitWithReminders = Prisma.HabitGetPayload<{
@@ -36,7 +36,7 @@ export interface HabitCommand {
 /* Quippet types */
 interface QuippetSession extends Scenes.SceneSession {
   expecting: keyof Quote
-  quote: Partial<Quote>
+  // quote: Partial<Quote>
 }
 
 export interface QuippetContext extends Context {

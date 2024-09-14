@@ -1,8 +1,8 @@
+import { deleteHabit } from '@/prisma-db/src/habits/habit'
+import { HabitContext } from '@/types'
+import { replyAndLeave } from '@/util/telegraf'
 import { Markup, Scenes } from 'telegraf'
 import { message } from 'telegraf/filters'
-import { deleteHabit } from '../../db/habit'
-import { HabitContext } from '../../types'
-import { replyAndLeave } from '../utils'
 
 export const REMOVE_HABIT_SCENE = 'REMOVE_HABIT_SCENE'
 const removeHabitScene = new Scenes.BaseScene<HabitContext>(REMOVE_HABIT_SCENE)

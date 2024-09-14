@@ -1,5 +1,5 @@
-import { HabitCommand } from '../../types'
-import { enterScene } from '../utils'
+import { HabitCommand } from '@/types'
+import { enterScene } from '@/util/telegraf'
 import listHabits from './listHabits'
 import logHabitScene, { LOG_HABIT_SCENE } from './logHabit'
 import { NEW_HABIT_SCENE, newHabitScene } from './newHabit'

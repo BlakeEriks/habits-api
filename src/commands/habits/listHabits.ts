@@ -1,4 +1,4 @@
-import { HabitContext } from '../../types'
+import { HabitContext } from '@/types'
 
 const listHabits = async (ctx: HabitContext) => {
   if (!ctx.habits.length) {
