@@ -1,5 +1,5 @@
 import { HabitCommand } from '../../types'
-import { enterScene } from '../utils'
+import { enterScene } from '../../util/telegraf'
 import listReminders from './listReminders'
 import newReminderScene, { NEW_REMINDER_SCENE } from './newReminder'
 

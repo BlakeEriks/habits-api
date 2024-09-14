@@ -1,5 +1,5 @@
 import { HabitCommand } from '../../types'
-import { enterScene } from '../utils'
+import { enterScene } from '../../util/telegraf'
 import getTimezone from './getTimezone'
 import setTimezoneScene, { SET_TIMEZONE_SCENE } from './setTimezone'
 

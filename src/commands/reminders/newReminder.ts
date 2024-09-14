@@ -3,7 +3,7 @@ import { Markup, Scenes } from 'telegraf'
 import { message } from 'telegraf/filters'
 import { createReminder } from '../../db/reminder'
 import { HabitContext } from '../../types'
-import { replyAndLeave } from '../utils'
+import { replyAndLeave } from '../../util/telegraf'
 
 export const NEW_REMINDER_SCENE = 'NEW_REMINDER_SCENE'
 enum NEW_REMINDER_FIELDS {

@@ -1,46 +1,52 @@
-import { saveQuote } from '@/prisma-quippet/src/quote.db'
-import { getUserByName } from '@/prisma-quippet/src/user.db'
+import { saveQuote } from '@/prisma-db/src/quippets/quote.db'
+import { getUserByName } from '@/prisma-db/src/user'
 import { QuippetContext } from '@/types'
-import { Markup, Scenes } from 'telegraf'
+import { parseQuote } from '@/util/openai'
+import { last } from 'lodash'
+import { Scenes } from 'telegraf'
 import { message } from 'telegraf/filters'
-import { replyAndLeave } from '../utils'
+import { replyAndLeave } from '../../util/telegraf'
 
 export const NEW_QUOTE_SCENE = 'NEW_QUOTE_SCENE'
 const MY_NAME = 'Blake'
 
-enum NEW_QUOTE_FIELDS {
-  CONTENT = 'content',
-  QUOTEE = 'quotee',
-}
-
 export const newQuoteScene = new Scenes.BaseScene<QuippetContext>(NEW_QUOTE_SCENE)
 newQuoteScene.enter(ctx => {
-  ctx.session.expecting = NEW_QUOTE_FIELDS.CONTENT
-  ctx.session.quote = {}
-  return ctx.reply(`What is the quote?\n\nOr go /back`)
+  return ctx.reply(
+    `What is the quote?\n Please provide textual or image representation, and I will parse it for you 😀\n\nOr go /back`
+  )
 })
 
 newQuoteScene.command('back', replyAndLeave('Cancelled quote creation.'))
 
 newQuoteScene.on(message('text'), async ctx => {
-  switch (ctx.session.expecting) {
-    case NEW_QUOTE_FIELDS.CONTENT:
-      ctx.session.quote.content = ctx.message.text
-      ctx.session.expecting = 'quotee'
-      return ctx.reply('Who is the quotee?')
-    case NEW_QUOTE_FIELDS.QUOTEE:
-      const quotee = ctx.message.text
-      const content = ctx.session.quote.content
-      const userId = (await getUserByName(MY_NAME))!.id
+  console.log('youve got mail')
 
-      if (!content) {
-        return replyAndLeave('ERROR - Content is missing')(ctx)
-      }
+  // ctx.session.quote.content = msg.text
+  const quotee = ctx.message.text
+  const content = ''
+  const userId = (await getUserByName(MY_NAME))!.id
 
-      await saveQuote({ content, quotee, userId })
-
-      return replyAndLeave(`Quote saved!`)(ctx)
-    default:
-      return ctx.reply('ERROR - Invalid response', Markup.removeKeyboard())
+  if (!content) {
+    return replyAndLeave('ERROR - Content is missing')(ctx)
   }
+
+  await saveQuote({ content, quotee, userId })
+
+  return replyAndLeave(`Quote saved!`)(ctx)
 })
+
+newQuoteScene.on(message('photo'), async ctx => {
+  const photo = last(ctx.message.photo)
+  if (!photo) {
+    return replyAndLeave('ERROR - Photo is missing')(ctx)
+  }
+
+  const fileUrl = await ctx.telegram.getFileLink(photo.file_id)
+  const quote = await parseQuote({ imageURL: fileUrl.href })
+
+  await saveQuote({ ...quote, userId: ctx.user.id })
+  return replyAndLeave(`Quote saved!`)(ctx)
+})
+
+// newQuoteScene.on(message(''))
