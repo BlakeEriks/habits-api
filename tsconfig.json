@@ -9,7 +9,7 @@
     "strict": true,
     "paths": {
       "@db/*": [
-        "src/prisma-db/src/*"
+        "./src/prisma-db/src/*"
       ],
       "@/*": [
         "./src/*"

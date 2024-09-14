@@ -1,9 +1,9 @@
+import { HabitContext } from '@/types'
+import { replyAndLeave } from '@/util/telegraf'
+import { updateUser } from '@db/habits/user'
 import moment from 'moment-timezone'
 import { Markup, Scenes } from 'telegraf'
 import { message } from 'telegraf/filters'
-import { updateUser } from '../../db/user'
-import { HabitContext } from '../../types'
-import { replyAndLeave } from '../../util/telegraf'
 
 const TIMEZONE_OPTIONS = [
   'America/Los_Angeles',
