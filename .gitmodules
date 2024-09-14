@@ -1,3 +1,3 @@
-[submodule "src/prisma-quippet"]
-	path = src/prisma-quippet
-	url = https://github.com/BlakeEriks/prisma-quippet.git
+[submodule "src/prisma-db"]
+	path = src/prisma-db
+	url = https://github.com/BlakeEriks/prisma-db.git

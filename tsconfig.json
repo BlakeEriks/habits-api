@@ -8,9 +8,12 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "paths": {
+      "@db/*": [
+        "src/prisma-db/src/*"
+      ],
       "@/*": [
         "./src/*"
-      ]
+      ],
     },
     // "skipLibCheck": true, /* Skip type checking all .d.ts files. */
   },
