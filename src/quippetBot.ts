@@ -2,6 +2,7 @@ import { QUOTE_COMMANDS, QUOTE_SCENES } from '@/commands/quippets'
 import { QuippetContext } from '@/types'
 import { Markup, Scenes, session, Telegraf } from 'telegraf'
 import { message } from 'telegraf/filters'
+import attachUser from './middlewares/attachUser'
 
 const commandGroups = [
   { name: 'Quotes', commands: QUOTE_COMMANDS },
@@ -44,7 +45,7 @@ const stage = new Scenes.Stage<QuippetContext>([
 
 quippetBot.use(Telegraf.log())
 quippetBot.use(session())
-// quippetBot.use(attachUser)
+quippetBot.use(attachUser)
 // quippetBot.use(attachHabits)
 // quippetBot.use(saveMessage)
 quippetBot.use(stage.middleware())
