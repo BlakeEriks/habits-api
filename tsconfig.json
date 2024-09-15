@@ -15,6 +15,10 @@
         "./src/*"
       ],
     },
+    "baseUrl": ".",
+    "composite": true,
+    "declaration": true,
+    "declarationMap": true
     // "skipLibCheck": true, /* Skip type checking all .d.ts files. */
   },
   "include": [
@@ -24,4 +28,15 @@
     "@/**/*.d.ts",
     ".netlify/functions/**/*.ts",
   ],
+  "references": [
+    {
+      "path": "./src/prisma-db"
+    }
+  ],
+  "ts-node": {
+    // Do not forget to `npm i -D tsconfig-paths`
+    "require": [
+      "tsconfig-paths/register"
+    ]
+  }
 }

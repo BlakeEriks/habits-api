@@ -1,6 +1,6 @@
-import { saveHabitLogs } from '@/prisma-db/src/habits/habit'
 import { HabitContext } from '@/types'
 import { replyAndLeave } from '@/util/telegraf'
+import { saveHabitLogs } from '@db/habits/habit'
 import { Habit } from '@prisma/client'
 import moment from 'moment-timezone'
 import { Markup, Scenes } from 'telegraf'

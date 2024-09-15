@@ -1,5 +1,5 @@
-import { getHabitLogsSince } from '@/prisma-db/src/habits/habitLog'
 import { HabitContext, HabitDataType } from '@/types'
+import { getHabitLogsSince } from '@db/habits/habitLog'
 
 const habitSummary = async (ctx: HabitContext) => {
   if (!ctx.habits.length) {

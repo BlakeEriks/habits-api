@@ -8,10 +8,10 @@ const prisma = new PrismaClient()
 const attachUser: MiddlewareFn<HabitContext | QuippetContext> = async (ctx, next) => {
   if (!ctx.message) return await next()
 
-  const { id, first_name } = ctx.message.from
+  const { id, first_name: name } = ctx.message.from
 
   try {
-    let user = await prisma.user.findUnique({
+    let user = await prisma.user.findFirst({
       where: { telegramId: id },
     })
 
@@ -19,10 +19,10 @@ const attachUser: MiddlewareFn<HabitContext | QuippetContext> = async (ctx, next
       user = await prisma.user.create({
         data: {
           telegramId: id,
-          first_name: first_name,
+          name,
         },
       })
-      console.log('User created for: ', first_name, ', ', id)
+      console.log('User created for: ', name, ', ', id)
     }
 
     // Attach user to the request object

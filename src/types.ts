@@ -1,6 +1,5 @@
-import { Habit, Prisma, Reminder, User } from '@prisma/client'
+import { Habit, Prisma, Quote, Reminder, User } from '@prisma/client'
 import { Context, Scenes } from 'telegraf'
-import { Quote } from './prisma-db/src/generated/client'
 
 /* Habit types */
 type HabitWithReminders = Prisma.HabitGetPayload<{

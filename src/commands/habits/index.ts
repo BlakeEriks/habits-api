@@ -1,12 +1,17 @@
-import { HabitCommand } from '@/types'
+import { HabitCommand, HabitContext } from '@/types'
 import { enterScene } from '@/util/telegraf'
+import { BaseScene } from 'telegraf/scenes'
 import listHabits from './listHabits'
 import logHabitScene, { LOG_HABIT_SCENE } from './logHabit'
 import { NEW_HABIT_SCENE, newHabitScene } from './newHabit'
 import removeHabitScene, { REMOVE_HABIT_SCENE } from './removeHabit'
 import habitSummary from './summarizeHabits'
 
-export const HABIT_SCENES = [newHabitScene, removeHabitScene, logHabitScene]
+export const HABIT_SCENES: BaseScene<HabitContext>[] = [
+  newHabitScene,
+  removeHabitScene,
+  logHabitScene,
+]
 
 export const HABIT_COMMANDS: HabitCommand[] = [
   {
