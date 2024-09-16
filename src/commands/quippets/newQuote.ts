@@ -1,5 +1,4 @@
 import { saveQuote } from '@/prisma-db/src/quippets/quote.db'
-import { getUserByName } from '@/prisma-db/src/user'
 import { QuippetContext } from '@/types'
 import { parseQuote } from '@/util/openai'
 import { last } from 'lodash'
@@ -20,19 +19,8 @@ newQuoteScene.enter(ctx => {
 newQuoteScene.command('back', replyAndLeave('Cancelled quote creation.'))
 
 newQuoteScene.on(message('text'), async ctx => {
-  console.log('youve got mail')
-
-  // ctx.session.quote.content = msg.text
-  const quotee = ctx.message.text
-  const content = ''
-  const userId = (await getUserByName(MY_NAME))!.id
-
-  if (!content) {
-    return replyAndLeave('ERROR - Content is missing')(ctx)
-  }
-
-  await saveQuote({ content, quotee, userId })
-
+  const quote = await parseQuote({ text: ctx.message.text })
+  await saveQuote({ ...quote, userId: ctx.user.id })
   return replyAndLeave(`Quote saved!`)(ctx)
 })
 

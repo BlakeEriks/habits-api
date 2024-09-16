@@ -9,7 +9,7 @@ const Quote = z.object({
 
 const client = new OpenAI()
 
-const PARSE_QUOTE_SYSTEM_PROMPT = `Parse the quote to extract the quote and the quotee.`
+const PARSE_QUOTE_SYSTEM_PROMPT = `Parse the provided text to extract the quote and the quotee.`
 
 type ParseQuoteParams = {
   text?: string
@@ -49,5 +49,7 @@ export const parseQuote = async ({ text, imageURL }: ParseQuoteParams) => {
   if (quote.refusal || !quote.parsed) {
     throw new Error('Quote parsing failed')
   }
+
+  console.log('Quote parsed:', quote.parsed)
   return quote.parsed
 }
