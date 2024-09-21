@@ -1,13 +1,12 @@
-import { saveQuote } from '@/prisma-db/src/quippets/quote.db'
 import { QuippetContext } from '@/types'
 import { parseQuote } from '@/util/openai'
+import { replyAndLeave } from '@/util/telegraf'
 import { last } from 'lodash'
+import { saveQuote } from 'prisma-db'
 import { Scenes } from 'telegraf'
 import { message } from 'telegraf/filters'
-import { replyAndLeave } from '../../util/telegraf'
 
 export const NEW_QUOTE_SCENE = 'NEW_QUOTE_SCENE'
-const MY_NAME = 'Blake'
 
 export const newQuoteScene = new Scenes.BaseScene<QuippetContext>(NEW_QUOTE_SCENE)
 newQuoteScene.enter(ctx => {

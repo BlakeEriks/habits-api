@@ -1,12 +1,12 @@
+import { HABIT_COMMANDS, HABIT_SCENES } from '@/commands/habits'
+import { REMINDER_COMMANDS, REMINDER_SCENES } from '@/commands/reminders'
+import { TIMEZONE_COMMANDS, TIMEZONE_SCENES } from '@/commands/timezone'
+import attachHabits from '@/middlewares/attachHabits'
+import attachUser from '@/middlewares/attachUser'
+import saveMessage from '@/middlewares/saveMessage'
+import { HabitContext } from '@/types'
 import { Markup, Scenes, session, Telegraf } from 'telegraf'
 import { message } from 'telegraf/filters'
-import { HABIT_COMMANDS, HABIT_SCENES } from './commands/habits'
-import { REMINDER_COMMANDS, REMINDER_SCENES } from './commands/reminders'
-import { TIMEZONE_COMMANDS, TIMEZONE_SCENES } from './commands/timezone'
-import attachHabits from './middlewares/attachHabits'
-import attachUser from './middlewares/attachUser'
-import saveMessage from './middlewares/saveMessage'
-import { HabitContext } from './types'
 
 const commandGroups = [
   { name: 'Habits', commands: HABIT_COMMANDS },
@@ -31,9 +31,9 @@ Available commands:
 ${availableCommands.join('\n\n')}
 `
 
-if (!process.env.BOT_TOKEN) throw new Error('BOT_TOKEN is required')
+if (!process.env.HABIT_BOT_TOKEN) throw new Error('HABIT_BOT_TOKEN is required')
 
-const habitBot = new Telegraf<HabitContext>(process.env.BOT_TOKEN)
+const habitBot = new Telegraf<HabitContext>(process.env.HABIT_BOT_TOKEN)
 
 const stage = new Scenes.Stage<HabitContext>([
   ...HABIT_SCENES,

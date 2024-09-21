@@ -7,34 +7,24 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
+    "baseUrl": ".",
     "paths": {
-      "@db/*": [
-        "./src/prisma-db/src/*"
-      ],
       "@/*": [
         "./src/*"
       ],
     },
-    "baseUrl": ".",
     "composite": true,
     "declaration": true,
     "declarationMap": true
-    // "skipLibCheck": true, /* Skip type checking all .d.ts files. */
   },
   "include": [
     "src/**/*.ts",
     "src/**/*.d.ts",
     "@/**/*.ts",
     "@/**/*.d.ts",
-    ".netlify/functions/**/*.ts",
-  ],
-  "references": [
-    {
-      "path": "./src/prisma-db"
-    }
+    "netlify/functions/*.mts",
   ],
   "ts-node": {
-    // Do not forget to `npm i -D tsconfig-paths`
     "require": [
       "tsconfig-paths/register"
     ]

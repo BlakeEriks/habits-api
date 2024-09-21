@@ -23,10 +23,11 @@
       "node_modules"
     ],
     "watch": [
-      "src"
+      "src",
+      "netlify"
     ],
     "exec": "node -r tsconfig-paths/register -r ts-node/register src/index.ts",
-    "ext": "ts, js"
+    "ext": "ts, js, mts, mjs"
   },
   "keywords": [],
   "author": "",
@@ -62,6 +63,7 @@
     "netlify-cli": "^17.26.2",
     "ngrok": "^5.0.0-beta.2",
     "openai": "^4.61.0",
+    "prisma-db": "github:BlakeEriks/prisma-db",
     "telegraf": "^4.16.3",
     "zod": "^3.23.8"
   }

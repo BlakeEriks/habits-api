@@ -1,5 +1,5 @@
-import { HabitCommand } from '../../types'
-import { enterScene } from '../../util/telegraf'
+import { HabitCommand } from '@/types'
+import { enterScene } from '@/util/telegraf'
 import { NEW_QUOTE_SCENE, newQuoteScene } from './newQuote'
 
 export const QUOTE_SCENES = [newQuoteScene]
