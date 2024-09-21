@@ -1,5 +1,5 @@
 import { Config } from '@netlify/functions'
-import quippetBot from '../../src/quippetBot.ts'
+import quippetBot from '../../src/quippetBot.js'
 // import { getAllUsers, sampleQuotesByUser } from 'prisma-db'
 
 // const QUOTE_SAMPLE_SIZE = 3
