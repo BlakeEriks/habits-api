@@ -1,4 +1,4 @@
-import { Habit, Prisma, Quote, Reminder, User } from '@prisma/client'
+import { Habit, Prisma, Quote, Reminder, User } from 'prisma-db'
 import { Context, Scenes } from 'telegraf'
 
 /* Habit types */
