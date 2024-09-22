@@ -11,9 +11,9 @@
     "migrate:test": "dotenv -e .env.test -- npx prisma migrate dev",
     "migrate:prod": "dotenv -e .env.prod -- npx prisma migrate dev",
     "reset:prod": "dotenv -e .env.prod -- npx prisma migrate reset",
-    "build": "prisma generate && tsc",
+    "build": "tsc",
     "webhook": "dotenv -e .env.prod npx ts-node scripts/telegramWebhook.ts",
-    "netlify-dev": "dotenv -e .env.prod netlify dev"
+    "netlify-dev": "dotenv -e .env.dev netlify dev"
   },
   "nodemonConfig": {
     "ignore": [

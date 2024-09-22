@@ -1,7 +1,8 @@
 import { QuippetContext } from '@/types'
 import { parseQuote } from '@/util/openai'
 import { replyAndLeave } from '@/util/telegraf'
-import { last } from 'lodash'
+import _ from 'lodash'
+
 import { saveQuote } from 'prisma-db'
 import { Scenes } from 'telegraf'
 import { message } from 'telegraf/filters'
@@ -24,7 +25,7 @@ newQuoteScene.on(message('text'), async ctx => {
 })
 
 newQuoteScene.on(message('photo'), async ctx => {
-  const photo = last(ctx.message.photo)
+  const photo = _.last(ctx.message.photo)
   if (!photo) {
     return replyAndLeave('ERROR - Photo is missing')(ctx)
   }
