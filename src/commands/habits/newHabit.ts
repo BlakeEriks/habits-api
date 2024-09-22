@@ -1,10 +1,8 @@
 import { HabitContext } from '@/types'
 import { replyAndLeave } from '@/util/telegraf'
-import { PrismaClient } from '@prisma/client'
+import prisma from 'prisma-db/dist/prisma'
 import { Markup, Scenes } from 'telegraf'
 import { message } from 'telegraf/filters'
-
-const prisma = new PrismaClient()
 
 const HABIT_DATA_TYPES = [
   {

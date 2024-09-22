@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from 'prisma-db'
 import { MiddlewareFn } from 'telegraf'
 import { HabitContext } from '../types'
 

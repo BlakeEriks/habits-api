@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from 'prisma-db'
 import request from 'supertest'
 
 const prisma = new PrismaClient()
@@ -7,7 +7,7 @@ beforeAll(async () => {
   // Clear test data before each test
   await prisma.habitLog.deleteMany()
   await prisma.habit.deleteMany()
-  await prisma.userSession.deleteMany()
+  // await prisma.userSession.deleteMany()
   await prisma.user.deleteMany()
 })
 

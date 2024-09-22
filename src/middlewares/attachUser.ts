@@ -1,5 +1,5 @@
 import { HabitContext, QuippetContext } from '@/types'
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from 'prisma-db'
 import { MiddlewareFn } from 'telegraf'
 
 const prisma = new PrismaClient()
