@@ -1,6 +1,6 @@
 import { HabitContext } from '@/types'
 import { replyAndLeave } from '@/util/telegraf'
-import { deleteHabit } from '@db/habits/habit'
+import { deleteHabit } from 'prisma-db'
 import { Markup, Scenes } from 'telegraf'
 import { message } from 'telegraf/filters'
 

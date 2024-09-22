@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "dotenv -e .env.dev npx nodemon",
     "test": "dotenv -e .env.test -- jest",
-    "prisma-generate": "npx prisma generate --schema src/prisma-db/prisma/schema.prisma",
+    "prisma-generate": "npx prisma generate --schema node_modules/prisma-db/prisma/schema.prisma",
     "migrate:dev": "dotenv -e .env.dev -- npx prisma migrate dev",
     "migrate:test": "dotenv -e .env.test -- npx prisma migrate dev",
     "migrate:prod": "dotenv -e .env.prod -- npx prisma migrate dev",

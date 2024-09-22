@@ -1,7 +1,7 @@
 import { HabitContext } from '@/types'
 import { replyAndLeave } from '@/util/telegraf'
-import { createReminder } from '@db/habits/reminder'
 import moment from 'moment-timezone'
+import { createReminder } from 'prisma-db'
 import { Markup, Scenes } from 'telegraf'
 import { message } from 'telegraf/filters'
 
