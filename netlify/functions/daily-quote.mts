@@ -39,5 +39,5 @@ export default async (event: Request) => {
 }
 
 export const config: Config = {
-  path: ['/daily-quote'],
+  schedule: '0 12 * * *',
 }
