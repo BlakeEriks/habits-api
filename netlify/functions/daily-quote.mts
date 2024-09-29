@@ -24,7 +24,6 @@ export default async (event: Request) => {
       console.log('Sending message to user:', user)
       const quotes = await sampleQuotesByUser(user.id, QUOTE_SAMPLE_SIZE)
       const quotesMessage = quotes.map(formatQuote).join('\n\n---\n\n')
-      // @ts-ignore
       await quippetBot.telegram.sendMessage(user.telegramId.toString(), quotesMessage)
     }
 
