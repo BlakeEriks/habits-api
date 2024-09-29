@@ -9,16 +9,17 @@ const attachUser: MiddlewareFn<HabitContext | QuippetContext> = async (ctx, next
   if (!ctx.message) return await next()
 
   const { id, first_name: name } = ctx.message.from
+  const telegramId = String(id)
 
   try {
     let user = await prisma.user.findFirst({
-      where: { telegramId: id },
+      where: { telegramId },
     })
 
     if (!user) {
       user = await prisma.user.create({
         data: {
-          telegramId: id,
+          telegramId,
           name,
         },
       })
