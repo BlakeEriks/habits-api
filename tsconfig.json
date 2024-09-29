@@ -22,7 +22,7 @@
     "src/**/*.d.ts",
     "@/**/*.ts",
     "@/**/*.d.ts",
-    "netlify/functions/*.mts",
+    // "netlify/functions/*.mts",
   ],
   "ts-node": {
     "require": [
