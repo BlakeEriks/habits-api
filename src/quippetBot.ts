@@ -58,4 +58,4 @@ for (const { name, action } of allCommands) {
 // Default
 quippetBot.on(message('text'), async ctx => ctx.reply(DEFAULT_MESSAGE, Markup.removeKeyboard()))
 
-export { quippetBot }
+export default quippetBot

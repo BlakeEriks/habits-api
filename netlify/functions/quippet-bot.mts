@@ -1,5 +1,5 @@
 import { Config } from '@netlify/functions'
-import { quippetBot } from '../../src/quippetBot.js'
+import quippetBot from '../../src/quippetBot'
 
 export default async (event: Request) => {
   try {

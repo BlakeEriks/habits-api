@@ -1,6 +1,6 @@
 import { Config } from '@netlify/functions'
 import { getAllUsers, sampleQuotesByUser } from 'prisma-db'
-import { quippetBot } from '../../src/quippetBot.js'
+import quippetBot from '../../src/quippetBot'
 
 const QUOTE_SAMPLE_SIZE = 3
 type Quote = Awaited<ReturnType<typeof sampleQuotesByUser>>[number]
