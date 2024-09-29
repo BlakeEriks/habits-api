@@ -1,6 +1,6 @@
-import botHandleUpdate from '@/functions/bot-handle-update.js'
-import quippetBot from '@/quippetBot.js'
 import { Config } from '@netlify/functions'
+import botHandleUpdate from '../../src/functions/bot-handle-update.js'
+import quippetBot from '../../src/quippetBot.js'
 
 // @ts-ignore
 export default botHandleUpdate(quippetBot)

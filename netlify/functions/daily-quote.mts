@@ -34,7 +34,7 @@ export default async (event: Request) => {
     return new Response('Success')
   } catch (e) {
     console.error('Error processing update:', e)
-    return new Response('Error processing update', { status: 500 })
+    return new Response('Error processing update: ' + e, { status: 500 })
   }
 }
 

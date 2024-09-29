@@ -1,5 +1,5 @@
-import botHandleUpdate from '@/functions/bot-handle-update.js'
 import { Config } from '@netlify/functions'
+import botHandleUpdate from '../../src/functions/bot-handle-update.js'
 import habitBot from '../../src/habitBot.js'
 
 // @ts-ignore
